@@ -1,22 +1,30 @@
-import { Review, ReviewsResponse, ReviewFilters, ReviewStats } from '@/types/reviews';
+import {
+  Review,
+  ReviewsResponse,
+  ReviewFilters,
+  ReviewStats,
+} from "@/types/reviews";
 
 export async function fetchReviews(): Promise<Review[]> {
   try {
-    const response = await fetch('/api/reviews/hostaway');
+    const response = await fetch("/api/reviews/hostaway");
     const data: ReviewsResponse = await response.json();
-    
-    if (data.status === 'success') {
+
+    if (data.status === "success") {
       return data.result;
     } else {
-      throw new Error(data.message || 'Failed to fetch reviews');
+      throw new Error(data.message || "Failed to fetch reviews");
     }
   } catch (error) {
-    console.error('Error fetching reviews:', error);
+    console.error("Error fetching reviews:", error);
     return [];
   }
 }
 
-export function filterReviews(reviews: Review[], filters: ReviewFilters): Review[] {
+export function filterReviews(
+  reviews: Review[],
+  filters: ReviewFilters
+): Review[] {
   return reviews.filter(review => {
     // Filter by rating
     if (filters.rating && review.rating !== null) {
@@ -25,7 +33,7 @@ export function filterReviews(reviews: Review[], filters: ReviewFilters): Review
 
     // Filter by category
     if (filters.category) {
-      const hasCategory = review.reviewCategory.some(cat => 
+      const hasCategory = review.reviewCategory.some(cat =>
         cat.category.toLowerCase().includes(filters.category!.toLowerCase())
       );
       if (!hasCategory) return false;
@@ -33,7 +41,11 @@ export function filterReviews(reviews: Review[], filters: ReviewFilters): Review
 
     // Filter by listing name
     if (filters.listingName) {
-      if (!review.listingName.toLowerCase().includes(filters.listingName.toLowerCase())) {
+      if (
+        !review.listingName
+          .toLowerCase()
+          .includes(filters.listingName.toLowerCase())
+      ) {
         return false;
       }
     }
@@ -43,7 +55,7 @@ export function filterReviews(reviews: Review[], filters: ReviewFilters): Review
       const reviewDate = new Date(review.submittedAt);
       const startDate = new Date(filters.dateRange.start);
       const endDate = new Date(filters.dateRange.end);
-      
+
       if (reviewDate < startDate || reviewDate > endDate) {
         return false;
       }
@@ -55,7 +67,10 @@ export function filterReviews(reviews: Review[], filters: ReviewFilters): Review
     }
 
     // Filter by approval status
-    if (filters.approved !== undefined && review.approved !== filters.approved) {
+    if (
+      filters.approved !== undefined &&
+      review.approved !== filters.approved
+    ) {
       return false;
     }
 
@@ -65,16 +80,20 @@ export function filterReviews(reviews: Review[], filters: ReviewFilters): Review
 
 export function calculateStats(reviews: Review[]): ReviewStats {
   const validReviews = reviews.filter(review => review.rating !== null);
-  
+
   const totalReviews = reviews.length;
-  const averageRating = validReviews.length > 0 
-    ? validReviews.reduce((sum, review) => sum + review.rating!, 0) / validReviews.length 
-    : 0;
+  const averageRating =
+    validReviews.length > 0
+      ? validReviews.reduce((sum, review) => sum + review.rating!, 0) /
+        validReviews.length
+      : 0;
 
   // Rating distribution
   const ratingDistribution: Record<number, number> = {};
   for (let i = 1; i <= 5; i++) {
-    ratingDistribution[i] = validReviews.filter(review => Math.floor(review.rating!) === i).length;
+    ratingDistribution[i] = validReviews.filter(
+      review => Math.floor(review.rating!) === i
+    ).length;
   }
 
   // Category averages
@@ -105,7 +124,7 @@ export function calculateStats(reviews: Review[]): ReviewStats {
     averageRating: Math.round(averageRating * 10) / 10,
     ratingDistribution,
     categoryAverages,
-    topIssues
+    topIssues,
   };
 }
 

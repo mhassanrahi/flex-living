@@ -2,9 +2,9 @@
 
 A comprehensive reviews management system for FlexLiving properties, built with Next.js 15 and Tailwind CSS v4.
 
-## 🚀 Features
+## Features
 
-### ✅ Implemented Features
+### Implemented Features
 
 1. **Hostaway Integration (Mocked)**
    - API endpoint at `/api/reviews/hostaway`
@@ -29,32 +29,40 @@ A comprehensive reviews management system for FlexLiving properties, built with 
    - Implementation roadmap
    - Challenges and recommendations
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Frontend**: Next.js 15, TypeScript
+- **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS v4
+- **Build Tool**: Vite (via Next.js)
 - **API**: Next.js API Routes
+- **State Management**: React Hooks (useState, useEffect)
+- **Linting**: ESLint with TypeScript and Accessibility rules
+- **Formatting**: Prettier with consistent code style
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd flex-living
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -62,7 +70,26 @@ A comprehensive reviews management system for FlexLiving properties, built with 
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 🏗️ Project Structure
+## Development Tools
+
+### Code Quality
+
+- **Linting**: `npm run lint` - Check for code quality issues
+- **Lint Fix**: `npm run lint:fix` - Automatically fix linting issues
+- **Formatting**: `npm run format` - Format code with Prettier
+- **Format Check**: `npm run format:check` - Check if code is properly formatted
+- **Type Check**: `npm run type-check` - Run TypeScript type checking
+
+### VS Code Setup
+
+The project includes VS Code settings for:
+
+- Automatic formatting on save
+- ESLint integration
+- TypeScript support
+- Tailwind CSS IntelliSense
+
+## Project Structure
 
 ```
 src/
@@ -84,13 +111,14 @@ src/
     └── reviews.ts                     # TypeScript type definitions
 ```
 
-## 🔧 API Documentation
+## API Documentation
 
 ### GET /api/reviews/hostaway
 
 Returns mock review data in the Hostaway format.
 
 **Response Format:**
+
 ```json
 {
   "status": "success",
@@ -101,9 +129,7 @@ Returns mock review data in the Hostaway format.
       "status": "published",
       "rating": null,
       "publicReview": "Review text...",
-      "reviewCategory": [
-        { "category": "cleanliness", "rating": 10 }
-      ],
+      "reviewCategory": [{ "category": "cleanliness", "rating": 10 }],
       "submittedAt": "2020-08-21 22:45:14",
       "guestName": "Guest Name",
       "listingName": "Property Name"
@@ -112,37 +138,43 @@ Returns mock review data in the Hostaway format.
 }
 ```
 
-## 🎯 Key Design Decisions
+## Key Design Decisions
 
 ### 1. **Component Architecture**
+
 - Modular, reusable components for maintainability
 - Separation of concerns between UI and business logic
 - TypeScript for type safety and better developer experience
 
 ### 2. **State Management**
+
 - React hooks for local state management
 - No external state management library needed for current scope
 - Efficient re-rendering with proper dependency arrays
 
 ### 3. **API Design**
+
 - RESTful API endpoints following Next.js conventions
 - Proper error handling and status codes
 - Mock data that closely resembles real Hostaway responses
 
 ### 4. **User Experience**
+
 - Responsive design that works on all devices
 - Loading states and error handling
 - Intuitive filtering and navigation
 - Clear visual hierarchy and modern UI
 
 ### 5. **Performance**
+
 - Client-side filtering for instant results
 - Optimized re-renders with React best practices
 - Efficient data processing with utility functions
 
-## 🔍 Features in Detail
+## Features in Detail
 
 ### Manager Dashboard
+
 - **Statistics Overview**: Total reviews, average rating, rating distribution
 - **Advanced Filtering**: By rating, category, property, date range, review type
 - **Review Management**: Approve/reject reviews with visual feedback
@@ -150,12 +182,14 @@ Returns mock review data in the Hostaway format.
 - **Real-time Updates**: Immediate reflection of approval changes
 
 ### Public Properties Page
+
 - **Property Selection**: Easy switching between properties
 - **Approved Reviews Only**: Ensures quality control
 - **Property Statistics**: Individual property performance metrics
 - **Responsive Design**: Optimized for mobile and desktop
 
 ### Google Reviews Integration
+
 - **Comprehensive Analysis**: Detailed exploration of integration options
 - **Implementation Roadmap**: Step-by-step guide for future development
 - **Risk Assessment**: Identified challenges and mitigation strategies
@@ -163,19 +197,22 @@ Returns mock review data in the Hostaway format.
 ## Deployment
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
 ### Start Production Server
+
 ```bash
 npm start
 ```
 
 ### Environment Variables
+
 No environment variables are required for the current implementation as it uses mock data.
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 1. **Real Hostaway Integration**
    - Replace mock data with actual API calls
@@ -196,4 +233,3 @@ No environment variables are required for the current implementation as it uses 
    - Review response management
    - Automated review moderation
    - Integration with property management systems
-
