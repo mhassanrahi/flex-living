@@ -2,6 +2,10 @@
 
 A comprehensive reviews management system for FlexLiving properties, built with Next.js 15 and Tailwind CSS v4.
 
+## Demo
+
+You can try out the live version here: [https://flex-living-germany.vercel.app/](https://flex-living-germany.vercel.app/).
+
 ## Features
 
 ### Implemented Features
