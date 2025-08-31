@@ -57,7 +57,7 @@ export default function ReviewFilters({
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className='px-3 py-1 text-sm text-blue-600 hover:text-blue-800 border border-blue-300 rounded hover:bg-blue-50'
+            className='px-3 py-1 text-sm text-blue-600 hover:text-blue-800 border border-blue-300 rounded hover:bg-blue-50 cursor-pointer '
           >
             {isExpanded ? "Hide" : "Show"} Filters
           </button>

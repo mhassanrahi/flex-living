@@ -140,7 +140,7 @@ export default function ReviewCard({
           <button
             onClick={() => onApprove(review.id, true)}
             disabled={review.approved}
-            className={`px-3 py-1 text-sm rounded ${
+            className={`px-3 py-1 text-sm rounded cursor-pointer ${
               review.approved
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-green-600 text-white hover:bg-green-700"
@@ -151,7 +151,7 @@ export default function ReviewCard({
           <button
             onClick={() => onApprove(review.id, false)}
             disabled={review.approved === false}
-            className={`px-3 py-1 text-sm rounded ${
+            className={`px-3 py-1 text-sm rounded cursor-pointer ${
               review.approved === false
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-red-600 text-white hover:bg-red-700"
