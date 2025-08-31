@@ -211,6 +211,22 @@ export default function ReviewFilters({
               <option value='false'>Pending/Rejected</option>
             </select>
           </div>
+
+          {/* Source Filter */}
+          <div>
+            <label className='block text-sm font-medium text-gray-700 mb-2'>
+              Review Source
+            </label>
+            <select
+              value={filters.source || "all"}
+              onChange={e => handleFilterChange("source", e.target.value)}
+              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+            >
+              <option value='all'>All Sources</option>
+              <option value='hostaway'>Hostaway</option>
+              <option value='google'>Google</option>
+            </select>
+          </div>
         </div>
       )}
 
@@ -246,6 +262,11 @@ export default function ReviewFilters({
             {filters.approved !== undefined && (
               <span className='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full'>
                 {filters.approved ? "Approved" : "Pending/Rejected"}
+              </span>
+            )}
+            {filters.source && filters.source !== "all" && (
+              <span className='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full'>
+                {filters.source === "hostaway" ? "Hostaway" : "Google"} Reviews
               </span>
             )}
           </div>

@@ -7,14 +7,39 @@ import {
 
 export async function fetchReviews(): Promise<Review[]> {
   try {
-    const response = await fetch("/api/reviews/hostaway");
-    const data: ReviewsResponse = await response.json();
+    // Fetch from both sources
+    const [hostawayResponse, googleResponse] = await Promise.allSettled([
+      fetch("/api/reviews/hostaway"),
+      fetch("/api/reviews/google"),
+    ]);
 
-    if (data.status === "success") {
-      return data.result;
-    } else {
-      throw new Error(data.message || "Failed to fetch reviews");
+    const reviews: Review[] = [];
+
+    // Process Hostaway reviews
+    if (hostawayResponse.status === "fulfilled" && hostawayResponse.value.ok) {
+      const hostawayData: ReviewsResponse = await hostawayResponse.value.json();
+      if (hostawayData.status === "success") {
+        const hostawayReviews = (hostawayData.result || []).map(review => ({
+          ...review,
+          source: "hostaway" as const,
+        }));
+        reviews.push(...hostawayReviews);
+      }
     }
+
+    // Process Google reviews
+    if (googleResponse.status === "fulfilled" && googleResponse.value.ok) {
+      const googleData: ReviewsResponse = await googleResponse.value.json();
+      if (googleData.status === "success") {
+        const googleReviews = (googleData.result || []).map(review => ({
+          ...review,
+          source: "google" as const,
+        }));
+        reviews.push(...googleReviews);
+      }
+    }
+
+    return reviews;
   } catch (error) {
     console.error("Error fetching reviews:", error);
     return [];
@@ -72,6 +97,13 @@ export function filterReviews(
       review.approved !== filters.approved
     ) {
       return false;
+    }
+
+    // Filter by source
+    if (filters.source && filters.source !== "all") {
+      if (review.source !== filters.source) {
+        return false;
+      }
     }
 
     return true;

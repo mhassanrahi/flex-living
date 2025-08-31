@@ -5,7 +5,7 @@ import { useState } from "react";
 
 interface ReviewCardProps {
   review: Review;
-  onApprove?: (id: number, approved: boolean) => void;
+  onApprove?: (id: number | string, approved: boolean) => void;
   showApprovalControls?: boolean;
 }
 
@@ -68,6 +68,17 @@ export default function ReviewCard({
           >
             {review.type === "guest-to-host" ? "Guest Review" : "Host Review"}
           </span>
+          {review.source && (
+            <span
+              className={`px-2 py-1 text-xs rounded-full ${
+                review.source === "google"
+                  ? "bg-purple-100 text-purple-800"
+                  : "bg-orange-100 text-orange-800"
+              }`}
+            >
+              {review.source === "google" ? "Google" : "Hostaway"}
+            </span>
+          )}
           {showApprovalControls && (
             <span
               className={`px-2 py-1 text-xs rounded-full ${

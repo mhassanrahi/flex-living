@@ -28,10 +28,11 @@ You can try out the live version here: [https://flex-living-germany.vercel.app/]
    - Only approved reviews are displayed
    - Responsive design for all devices
 
-4. **Google Reviews Exploration**
-   - Detailed analysis of integration options
-   - Implementation roadmap
-   - Challenges and recommendations
+4. **Google Reviews Integration**
+   - Unified review system combining Hostaway and Google reviews
+   - API endpoint at `/api/reviews/google`
+   - Source-based filtering and management
+   - Visual indicators for review sources
 
 ## Tech Stack
 

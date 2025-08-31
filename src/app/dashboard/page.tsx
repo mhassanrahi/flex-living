@@ -48,7 +48,7 @@ export default function Dashboard() {
   }, [reviews, filters]);
 
   // Handle review approval/rejection
-  const handleReviewApproval = (id: number, approved: boolean) => {
+  const handleReviewApproval = (id: number | string, approved: boolean) => {
     setReviews(prevReviews =>
       prevReviews.map(review =>
         review.id === id ? { ...review, approved } : review

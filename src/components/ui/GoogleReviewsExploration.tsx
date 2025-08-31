@@ -21,13 +21,14 @@ export default function GoogleReviewsExploration() {
 
       {isExpanded && (
         <div className='space-y-4'>
-          <div className='bg-blue-50 border border-blue-200 rounded-lg p-4'>
-            <h4 className='font-semibold text-blue-900 mb-2'>
-              Integration Status: Exploration Phase
+          <div className='bg-green-50 border border-green-200 rounded-lg p-4'>
+            <h4 className='font-semibold text-green-900 mb-2'>
+              Integration Status: ✅ Complete
             </h4>
-            <p className='text-blue-800 text-sm'>
-              Google Reviews integration is currently in the exploration phase.
-              Here are the findings:
+            <p className='text-green-800 text-sm'>
+              Google Reviews integration has been successfully implemented!
+              Google reviews are now available in the dashboard alongside
+              Hostaway reviews.
             </p>
           </div>
 
@@ -82,11 +83,11 @@ export default function GoogleReviewsExploration() {
           </div>
 
           <div className='flex gap-2'>
-            <button className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm'>
-              Start Integration
+            <button className='px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm'>
+              ✅ Integration Complete
             </button>
-            <button className='px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm'>
-              Learn More
+            <button className='px-4 py-2 bg-blue-200 text-blue-700 rounded hover:bg-blue-300 text-sm'>
+              View Google Reviews
             </button>
           </div>
         </div>

@@ -4,7 +4,7 @@ export interface ReviewCategory {
 }
 
 export interface Review {
-  id: number;
+  id: number | string;
   type: "host-to-guest" | "guest-to-host";
   status: "published" | "pending" | "rejected";
   rating: number | null;
@@ -14,6 +14,7 @@ export interface Review {
   guestName: string;
   listingName: string;
   approved?: boolean;
+  source?: "hostaway" | "google";
 }
 
 export interface ReviewsResponse {
@@ -32,6 +33,7 @@ export interface ReviewFilters {
   };
   type?: "host-to-guest" | "guest-to-host";
   approved?: boolean;
+  source?: "hostaway" | "google" | "all";
 }
 
 export interface ReviewStats {
