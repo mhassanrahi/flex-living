@@ -1,12 +1,9 @@
 import Link from "next/link";
-import PublicHeader from "@/components/PublicHeader";
-import Footer from "@/components/Footer";
+import PublicLayout from "@/components/layouts/PublicLayout";
 
 export default function Home() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100'>
-      <PublicHeader />
-
+    <PublicLayout className='bg-gradient-to-br from-blue-50 to-indigo-100'>
       {/* Hero Section */}
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16'>
         <div className='text-center'>
@@ -96,8 +93,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </PublicLayout>
   );
 }
