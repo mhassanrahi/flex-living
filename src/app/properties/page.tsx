@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Review } from "@/types/reviews";
 import { fetchReviews, getUniqueListings } from "@/lib/reviews";
 import ReviewCard from "@/components/ui/ReviewCard";
+import Pagination from "@/components/ui/Pagination";
 import PublicHeader from "@/components/PublicHeader";
 import Footer from "../../components/Footer";
 
@@ -12,6 +13,11 @@ export default function Properties() {
   const [selectedProperty, setSelectedProperty] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState<"date" | "rating" | "property">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  const itemsPerPage = 5;
 
   // Fetch reviews on component mount
   useEffect(() => {
@@ -19,11 +25,7 @@ export default function Properties() {
       try {
         setLoading(true);
         const data = await fetchReviews();
-        // Only show approved reviews for public display
-        const approvedReviews = data.filter(
-          review => review.approved !== false
-        );
-        setReviews(approvedReviews);
+        setReviews(data);
       } catch (err) {
         setError("Failed to load reviews");
         console.error("Error loading reviews:", err);
@@ -42,6 +44,37 @@ export default function Properties() {
   const filteredReviews = selectedProperty
     ? reviews.filter(review => review.listingName === selectedProperty)
     : reviews;
+
+  // Sort reviews
+  const sortedReviews = [...filteredReviews].sort((a, b) => {
+    let comparison = 0;
+
+    switch (sortBy) {
+      case "date":
+        comparison =
+          new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
+        break;
+      case "rating":
+        comparison = (a.rating || 0) - (b.rating || 0);
+        break;
+      case "property":
+        comparison = a.listingName.localeCompare(b.listingName);
+        break;
+    }
+
+    return sortOrder === "asc" ? comparison : -comparison;
+  });
+
+  // Paginate reviews
+  const totalPages = Math.ceil(sortedReviews.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedReviews = sortedReviews.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProperty, sortBy, sortOrder]);
 
   // Calculate property stats
   const getPropertyStats = (propertyName: string) => {
@@ -211,13 +244,39 @@ export default function Properties() {
 
         {/* Reviews Section */}
         <div className='mb-8'>
-          <div className='flex justify-between items-center mb-6'>
+          <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4'>
             <h2 className='text-2xl font-bold text-gray-900'>
               {selectedProperty ? `${selectedProperty} Reviews` : "All Reviews"}
             </h2>
-            <span className='text-sm text-gray-500'>
-              {filteredReviews.length} reviews
-            </span>
+
+            <div className='flex items-center gap-4'>
+              {/* Sort Options */}
+              <div className='flex items-center gap-2'>
+                <select
+                  value={sortBy}
+                  onChange={e =>
+                    setSortBy(e.target.value as "date" | "rating" | "property")
+                  }
+                  className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm'
+                >
+                  <option value='date'>Date</option>
+                  <option value='rating'>Rating</option>
+                  <option value='property'>Property</option>
+                </select>
+                <button
+                  onClick={() =>
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                  }
+                  className='p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors'
+                >
+                  {sortOrder === "asc" ? "↑" : "↓"}
+                </button>
+              </div>
+
+              <span className='text-sm text-gray-500'>
+                {filteredReviews.length} reviews
+              </span>
+            </div>
           </div>
 
           {filteredReviews.length === 0 ? (
@@ -233,14 +292,27 @@ export default function Properties() {
               </p>
             </div>
           ) : (
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-              {filteredReviews.map(review => (
-                <ReviewCard
-                  key={review.id}
-                  review={review}
-                  showApprovalControls={false}
-                />
-              ))}
+            <div className='bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden'>
+              <div className='p-6'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                  {paginatedReviews.map(review => (
+                    <ReviewCard
+                      key={review.id}
+                      review={review}
+                      showApprovalControls={false}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Pagination */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                totalItems={filteredReviews.length}
+                itemsPerPage={itemsPerPage}
+              />
             </div>
           )}
         </div>

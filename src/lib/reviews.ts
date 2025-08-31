@@ -5,7 +5,9 @@ import {
   ReviewStats,
 } from "@/types/reviews";
 
-export async function fetchReviews(): Promise<Review[]> {
+export async function fetchReviews(
+  forPublicDisplay: boolean = true
+): Promise<Review[]> {
   try {
     // Fetch from both sources
     const [hostawayResponse, googleResponse] = await Promise.allSettled([
@@ -23,6 +25,7 @@ export async function fetchReviews(): Promise<Review[]> {
           ...review,
           source: "hostaway" as const,
         }));
+
         reviews.push(...hostawayReviews);
       }
     }
@@ -35,7 +38,15 @@ export async function fetchReviews(): Promise<Review[]> {
           ...review,
           source: "google" as const,
         }));
-        reviews.push(...googleReviews);
+
+        if (forPublicDisplay) {
+          const filteredGoogleReviews = googleReviews.filter(
+            review => review.approved
+          );
+          reviews.push(...filteredGoogleReviews);
+        } else {
+          reviews.push(...googleReviews);
+        }
       }
     }
 
