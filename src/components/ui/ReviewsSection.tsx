@@ -10,7 +10,7 @@ interface ReviewsSectionProps {
   currentPage: number;
   sortBy: "date" | "rating" | "property";
   sortOrder: "asc" | "desc";
-  itemsPerPage: number;
+  itemsPerPage?: number;
   onPageChange: (page: number) => void;
   onSortByChange: (sortBy: "date" | "rating" | "property") => void;
   onSortOrderChange: (sortOrder: "asc" | "desc") => void;
@@ -27,7 +27,7 @@ export default function ReviewsSection({
   currentPage,
   sortBy,
   sortOrder,
-  itemsPerPage,
+  itemsPerPage = 5,
   onPageChange,
   onSortByChange,
   onSortOrderChange,

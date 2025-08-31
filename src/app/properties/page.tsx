@@ -16,8 +16,6 @@ export default function Properties() {
   const [sortBy, setSortBy] = useState<"date" | "rating" | "property">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const itemsPerPage = 5;
-
   // Fetch reviews on component mount
   useEffect(() => {
     const loadReviews = async () => {
@@ -225,7 +223,6 @@ export default function Properties() {
           currentPage={currentPage}
           sortBy={sortBy}
           sortOrder={sortOrder}
-          itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
           onSortByChange={setSortBy}
           onSortOrderChange={setSortOrder}
