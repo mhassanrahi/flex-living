@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { Review } from "@/types/reviews";
 import { fetchReviews, getUniqueListings } from "@/lib/reviews";
 import ReviewCard from "@/components/ui/ReviewCard";
-import Link from "next/link";
+import PublicHeader from "@/components/PublicHeader";
+import Footer from "../../components/Footer";
 
 export default function Properties() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -102,32 +103,7 @@ export default function Properties() {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      <div className='bg-white shadow-sm border-b border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between items-center py-6'>
-            <div className='flex items-center'>
-              <Link href='/' className='text-2xl font-bold text-blue-600'>
-                FlexLiving
-              </Link>
-            </div>
-            <nav className='flex space-x-8'>
-              <Link
-                href='/dashboard'
-                className='text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-              >
-                Dashboard
-              </Link>
-              <Link
-                href='/properties'
-                className='text-blue-600 px-3 py-2 rounded-md text-sm font-medium'
-              >
-                Properties
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </div>
+      <PublicHeader />
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {/* Page Header */}
@@ -268,19 +244,9 @@ export default function Properties() {
             </div>
           )}
         </div>
-
-        {/* Call to Action */}
-        <div className='bg-blue-600 rounded-lg shadow-md p-8 text-center'>
-          <h3 className='text-2xl font-bold text-white mb-4'>Ready to Book?</h3>
-          <p className='text-blue-100 mb-6'>
-            Experience the quality that our guests rave about. Book your stay
-            today!
-          </p>
-          <button className='bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors'>
-            Book Now
-          </button>
-        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

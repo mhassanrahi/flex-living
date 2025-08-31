@@ -12,8 +12,7 @@ import {
 import ReviewCard from "@/components/ui/ReviewCard";
 import StatsCard from "@/components/ui/StatsCard";
 import ReviewFilters from "@/components/ui/ReviewFilters";
-
-import Link from "next/link";
+import AdminHeader from "@/components/AdminHeader";
 
 export default function Dashboard() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -94,32 +93,7 @@ export default function Dashboard() {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      <div className='bg-white shadow-sm border-b border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between items-center py-6'>
-            <div>
-              <h1 className='text-3xl font-bold text-gray-900'>
-                FlexLiving Reviews Dashboard
-              </h1>
-              <p className='text-gray-600 mt-1'>
-                Manage and analyze guest reviews across all properties
-              </p>
-            </div>
-            <div className='flex items-center gap-4'>
-              <Link
-                href='/'
-                className='text-sm text-gray-500 hover:text-gray-700'
-              >
-                Go to Home
-              </Link>
-              <span className='text-sm text-gray-500'>
-                {filteredReviews.length} of {reviews.length} reviews
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdminHeader />
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {/* Stats Cards */}

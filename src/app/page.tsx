@@ -1,32 +1,11 @@
 import Link from "next/link";
+import PublicHeader from "@/components/PublicHeader";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100'>
-      {/* Header */}
-      <div className='bg-white shadow-sm border-b border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between items-center py-6'>
-            <div className='flex items-center'>
-              <div className='text-2xl font-bold text-blue-600'>FlexLiving</div>
-            </div>
-            <nav className='flex space-x-8'>
-              <Link
-                href='/dashboard'
-                className='text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-              >
-                Dashboard
-              </Link>
-              <Link
-                href='/properties'
-                className='text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-              >
-                Properties
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </div>
+      <PublicHeader />
 
       {/* Hero Section */}
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16'>
@@ -118,14 +97,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className='bg-white shadow-sm border-t border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='py-6 text-center text-gray-600'>
-            &copy; {new Date().getFullYear()} FlexLiving.
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }
