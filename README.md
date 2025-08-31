@@ -127,7 +127,6 @@ src/
 │       ├── Pagination.tsx       # Pagination component
 │       ├── StatsCard.tsx        # Statistics display
 │       ├── ReviewFilters.tsx    # Filtering interface
-│       └── GoogleReviewsExploration.tsx # Google integration exploration
 ├── lib/
 │   └── reviews.ts               # Review utilities and API functions
 └── types/

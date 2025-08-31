@@ -147,9 +147,6 @@ export default function Dashboard() {
               </div>
             </div>
           )}
-
-          {/* Google Reviews Exploration */}
-          {/* <GoogleReviewsExploration /> */}
         </div>
       )}
     </AdminLayout>
