@@ -9,8 +9,7 @@ import {
   getUniqueListings,
   getUniqueCategories,
 } from "@/lib/reviews";
-import ReviewCard from "@/components/ui/ReviewCard";
-import Pagination from "@/components/ui/Pagination";
+import ReviewsSection from "@/components/ui/ReviewsSection";
 import StatsCard from "@/components/ui/StatsCard";
 import ReviewFilters from "@/components/ui/ReviewFilters";
 import AdminHeader from "@/components/AdminHeader";
@@ -51,32 +50,6 @@ export default function Dashboard() {
     const filtered = filterReviews(reviews, filters);
     setFilteredReviews(filtered);
   }, [reviews, filters]);
-
-  // Sort reviews
-  const sortedReviews = [...filteredReviews].sort((a, b) => {
-    let comparison = 0;
-
-    switch (sortBy) {
-      case "date":
-        comparison =
-          new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
-        break;
-      case "rating":
-        comparison = (a.rating || 0) - (b.rating || 0);
-        break;
-      case "property":
-        comparison = a.listingName.localeCompare(b.listingName);
-        break;
-    }
-
-    return sortOrder === "asc" ? comparison : -comparison;
-  });
-
-  // Paginate reviews
-  const totalPages = Math.ceil(sortedReviews.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedReviews = sortedReviews.slice(startIndex, endIndex);
 
   // Reset to first page when filters or sorting change
   useEffect(() => {
@@ -146,79 +119,27 @@ export default function Dashboard() {
           categories={categories}
         />
 
-        {/* Reviews Grid */}
-        <div className='mb-8'>
-          <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4'>
-            <h2 className='text-2xl font-bold text-gray-900'>Reviews</h2>
-
-            <div className='flex items-center gap-4'>
-              {/* Sort Options */}
-              <div className='flex items-center gap-2'>
-                <select
-                  value={sortBy}
-                  onChange={e =>
-                    setSortBy(e.target.value as "date" | "rating" | "property")
-                  }
-                  className='px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm'
-                >
-                  <option value='date'>Date</option>
-                  <option value='rating'>Rating</option>
-                  <option value='property'>Property</option>
-                </select>
-                <button
-                  onClick={() =>
-                    setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-                  }
-                  className='p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors'
-                >
-                  {sortOrder === "asc" ? "↑" : "↓"}
-                </button>
-              </div>
-
-              <span className='text-sm text-gray-500'>
-                {filteredReviews.length} of {reviews.length} reviews
-              </span>
-            </div>
-          </div>
-
-          {filteredReviews.length === 0 ? (
-            <div className='text-center py-12'>
-              <div className='text-gray-400 text-6xl mb-4'>📝</div>
-              <h3 className='text-xl font-semibold text-gray-900 mb-2'>
-                No reviews found
-              </h3>
-              <p className='text-gray-600'>
-                {Object.keys(filters).length > 0
-                  ? "Try adjusting your filters to see more reviews."
-                  : "No reviews are available at the moment."}
-              </p>
-            </div>
-          ) : (
-            <div className='bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden'>
-              <div className='p-6'>
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                  {paginatedReviews.map(review => (
-                    <ReviewCard
-                      key={review.id}
-                      review={review}
-                      onApprove={handleReviewApproval}
-                      showApprovalControls={true}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-                totalItems={filteredReviews.length}
-                itemsPerPage={itemsPerPage}
-              />
-            </div>
-          )}
-        </div>
+        {/* Reviews Section */}
+        <ReviewsSection
+          title='Reviews'
+          reviews={reviews}
+          filteredReviews={filteredReviews}
+          currentPage={currentPage}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+          onSortByChange={setSortBy}
+          onSortOrderChange={setSortOrder}
+          showApprovalControls={true}
+          onApprove={handleReviewApproval}
+          emptyMessage='No reviews found'
+          emptySubMessage={
+            Object.keys(filters).length > 0
+              ? "Try adjusting your filters to see more reviews."
+              : "No reviews are available at the moment."
+          }
+        />
 
         {/* Top Issues Section */}
         {stats.topIssues.length > 0 && (
